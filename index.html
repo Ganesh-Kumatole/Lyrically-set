@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Player</title>
+    <script
+      src="https://kit.fontawesome.com/b1b1a843c1.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="screen">
+      <div class="songDetails">
+        <img class="songThumbnail" src="images/on&on.jpg" alt="song-image" />
+        <p class="songName">On and On</p>
+        <p class="songArtist">Ft. Daniel Levi</p>
+      </div>
+
+      <audio src="audios/on&on.mp3"></audio>
+
+      <div class="seekBars">
+        <div class="volumeControl">
+          <i class="fa-solid fa-volume-high" id="volumeIcon"></i>
+          <input type="range" min="0" max="100" id="seekBarVolume" />
+        </div>
+        <input type="range" id="seekBarSong" min="0" />
+      </div>
+
+      <p class="timeStamp">00:00/03:28</p>
+
+      <div class="controlIcons">
+        <i class="fa-solid fa-backward" id="backwardBtn"></i>
+        <i class="fa-solid fa-play" id="playBtn"></i>
+        <i class="fa-solid fa-forward" id="forwardBtn"></i>
+      </div>
+    </div>
+  </body>
+</html>
