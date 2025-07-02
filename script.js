@@ -8,7 +8,50 @@ const songSlider = document.querySelector("input#seekBarSong");
 const timeStampDetails = document.querySelector("p.timeStamp");
 const playPauseBtn = document.querySelector("i#playBtn");
 const backwardBtn = document.querySelector("i#backwardBtn");
-const forwardBtn = document.querySelector("i#forwadBtn");
+const forwardBtn = document.querySelector("i#forwardBtn");
+
+const song = ["on-and-on", "tune"];
+let songIndex = 0;
+
+function formatTime(seconds) {
+  if (isNaN(seconds) || seconds === Infinity) return "00:00";
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins.toString().padStart(2, "0")}:${secs
+    .toString()
+    .padStart(2, "0")}`;
+}
+
+function loadSong(song) {
+  audio.src = `audios/${song}.mp3`;
+  songImage.src = `images/${song}.jpg`;
+  if (song === "on-and-on") {
+    songName.innerText = "On and On";
+    songArtist.innerText = "Ft. Daniel Levi";
+  } else {
+    songName.innerText = "Instrumental";
+    songArtist.innerText = "Ft. Matt Robbins";
+  }
+}
+
+function prevSong() {
+  console.log(songIndex);
+  songIndex--;
+  if (songIndex < 0) {
+    songIndex = song.length - 1;
+  }
+  loadSong(song[songIndex]);
+  audio.play();
+}
+
+function nextSong() {
+  songIndex++;
+  if (songIndex > song.length - 1) {
+    songIndex = 0;
+  }
+  loadSong(song[songIndex]);
+  audio.play();
+}
 
 function playOrPause(e) {
   if (playPauseBtn.classList.contains("fa-play")) {
@@ -26,8 +69,19 @@ function playOrPause(e) {
   }
 }
 
-function updateSlider(e) {
+function updateSlider() {
   songSlider.value = audio.currentTime;
+}
+
+function updateTimestamp() {
+  timeStampDetails.innerText = `${formatTime(audio.currentTime)}/${formatTime(
+    audio.duration
+  )}`;
+}
+
+function updateUI(e) {
+  updateSlider();
+  updateTimestamp();
 }
 
 function updateSong(e) {
@@ -48,7 +102,7 @@ function updateVolume() {
   }
 }
 
-function syncWithSlider(e) {
+function sliderMaxValue(e) {
   songSlider.max = audio.duration;
 }
 
@@ -59,9 +113,15 @@ function reset() {
   audio.currentTime = 0;
 }
 
-document.addEventListener("DOMContentLoaded", reset);
-audio.addEventListener("loadedmetadata", syncWithSlider);
-playPauseBtn.addEventListener("click", playOrPause);
-audio.addEventListener("timeupdate", updateSlider);
-songSlider.addEventListener("input", updateSong);
-volumeSlider.addEventListener("input", updateVolume);
+function init() {
+  document.addEventListener("DOMContentLoaded", reset);
+  audio.addEventListener("loadedmetadata", sliderMaxValue);
+  playPauseBtn.addEventListener("click", playOrPause);
+  audio.addEventListener("timeupdate", updateUI);
+  songSlider.addEventListener("input", updateSong);
+  volumeSlider.addEventListener("input", updateVolume);
+  forwardBtn.addEventListener("click", nextSong);
+  backwardBtn.addEventListener("click", prevSong);
+}
+
+init();

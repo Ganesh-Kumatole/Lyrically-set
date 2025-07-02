@@ -154,4 +154,5 @@ input#seekBarSong::-webkit-slider-thumb {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
